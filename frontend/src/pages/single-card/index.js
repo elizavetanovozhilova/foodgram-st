@@ -85,6 +85,7 @@ const SingleCard = ({ loadItem, updateOrders }) => {
     name,
     ingredients,
     text,
+    tags = [],
     is_favorited,
     is_in_shopping_cart,
   } = recipe;
@@ -106,6 +107,25 @@ const SingleCard = ({ loadItem, updateOrders }) => {
           <div className={styles["single-card__info"]}>
             <div className={styles["single-card__header-info"]}>
               <h1 className={styles["single-card__title"]}>{name}</h1>
+              
+              {/* Отображение тегов */}
+              {tags && tags.length > 0 && (
+                <div className={styles["single-card__tags"]}>
+                  {tags.map((tag) => (
+                    <span
+                      key={tag.id}
+                      className={styles["single-card__tag"]}
+                      style={{
+                        backgroundColor: tag.color,
+                        color: tag.color === '#FFFFFF' ? '#000' : '#fff'
+                      }}
+                    >
+                      {tag.name}
+                    </span>
+                  ))}
+                </div>
+              )}
+              
               <div className={styles.btnsBox}>
                 <Button
                   modifier="style_none"

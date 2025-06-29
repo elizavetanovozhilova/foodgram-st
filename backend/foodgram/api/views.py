@@ -278,3 +278,12 @@ def download_shopping_cart(request):
     response['Content-Disposition'] = 'attachment; filename={0}'.format(
         filename)
     return response
+
+
+@api_view(["GET"])
+def get_recipe_short_link(request, recipe_id):
+    """Получить короткую ссылку на рецепт."""
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    # Создаем короткую ссылку на основе ID рецепта
+    short_link = f"https://localhost/recipes/{recipe.id}"
+    return Response({"short-link": short_link})

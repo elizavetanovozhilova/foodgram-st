@@ -14,6 +14,7 @@ const Card = ({
   is_in_shopping_cart,
   cooking_time,
   author = {},
+  tags = [],
   handleLike,
   handleAddToCart,
   updateOrders,
@@ -61,6 +62,25 @@ const Card = ({
             setWhiteSpaceValue("nowrap");
           }}
         />
+        
+        {/* Отображение тегов */}
+        {tags && tags.length > 0 && (
+          <div className={styles.card__tags}>
+            {tags.map((tag) => (
+              <span
+                key={tag.id}
+                className={styles.card__tag}
+                style={{
+                  backgroundColor: tag.color,
+                  color: tag.color === '#FFFFFF' ? '#000' : '#fff'
+                }}
+              >
+                {tag.name}
+              </span>
+            ))}
+          </div>
+        )}
+        
         <div className={styles.card__data}>
           <div
             className={styles["card__author-image"]}

@@ -132,11 +132,19 @@
 }
 
 .card__tag {
-  position: absolute;
-  top: 12px;
-  right: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
   text-transform: capitalize;
-  z-index: 2;
+  margin: 2px;
+}
+
+.card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 16px;
 }
 
 .card__time {

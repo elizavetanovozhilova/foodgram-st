@@ -139,6 +139,21 @@
   gap: 20px;
 }
 
+.single-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.single-card__tag {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
 @media screen and (max-width: 900px) {
   .single-card {
     grid-template-columns: 1fr;
