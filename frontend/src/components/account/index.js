@@ -60,7 +60,9 @@ const Account = ({ onSignOut, orders }) => {
       />
       <div
         style={{
-          "background-image": `url(${userContext.avatar || DefaultImage})`,
+          "background-image": `url(${
+            userContext.avatar && userContext.avatar !== 'null' ? userContext.avatar : DefaultImage
+          })`,
         }}
         className={styles.accountAvatar}
         onClick={() => {

@@ -9,6 +9,18 @@ export default [
     title: 'Создать рецепт',
     href: '/recipes/create',
     auth: true
+  }, {
+    title: 'Избранное',
+    href: '/favorites',
+    auth: true
+  }, {
+    title: 'Мои подписки',
+    href: '/subscriptions',
+    auth: true
+  }, {
+    title: 'Список покупок',
+    href: '/cart',
+    auth: true
   }
 ]
 

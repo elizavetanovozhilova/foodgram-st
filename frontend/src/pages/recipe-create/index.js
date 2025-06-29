@@ -15,7 +15,7 @@ import api from "../../api";
 import { useEffect, useState } from "react";
 import { useTags } from "../../utils";
 import { useHistory } from "react-router-dom";
-import MetaTags from "react-meta-tags";
+import { Helmet } from "react-helmet";
 import { Icons } from "../../components";
 import cn from "classnames";
 
@@ -37,6 +37,21 @@ const RecipeCreate = ({ onEdit }) => {
   const [showIngredients, setShowIngredients] = useState(false);
   const [submitError, setSubmitError] = useState({ submitError: "" });
   const [ingredientError, setIngredientError] = useState("");
+  
+  // Добавляем состояние для тегов
+  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  // Загружаем теги при монтировании компонента
+  useEffect(() => {
+    api.getTags()
+      .then((tagsData) => {
+        setTags(tagsData);
+      })
+      .catch((err) => {
+        console.error('Ошибка загрузки тегов:', err);
+      });
+  }, []);
 
   const handleAddIngredient = () => {
     if (
@@ -95,7 +110,8 @@ const RecipeCreate = ({ onEdit }) => {
       recipeIngredients.length === 0 ||
       recipeTime === "" ||
       recipeFile === "" ||
-      recipeFile === null
+      recipeFile === null ||
+      selectedTags.length === 0
     ) {
       setSubmitError({ submitError: "Заполните все поля!" });
       return true;
@@ -107,19 +123,32 @@ const RecipeCreate = ({ onEdit }) => {
   return (
     <Main>
       <Container>
-        <MetaTags>
+        <Helmet>
           <title>Создание рецепта</title>
           <meta name="description" content="Фудграм - Создание рецепта" />
           <meta property="og:title" content="Создание рецепта" />
-        </MetaTags>
+        </Helmet>
         <Title title="Создание рецепта" />
         <Form
           className={styles.form}
           onSubmit={(e) => {
             e.preventDefault();
+            console.log('Form submitted');
+            console.log('Recipe data:', {
+              text: recipeText,
+              name: recipeName,
+              ingredients: recipeIngredients,
+              cooking_time: recipeTime,
+              image: recipeFile,
+              tags: selectedTags,
+            });
             if (checkIfDisabled()) {
+              console.log('Form validation failed');
               return;
             }
+            console.log('Form validation passed, sending data...');
+            console.log('Selected tags:', selectedTags);
+            console.log('Tags array:', tags);
             const data = {
               text: recipeText,
               name: recipeName,
@@ -129,17 +158,26 @@ const RecipeCreate = ({ onEdit }) => {
               })),
               cooking_time: recipeTime,
               image: recipeFile,
+              tags: selectedTags,
             };
+            console.log('Sending data:', data);
             api
               .createRecipe(data)
               .then((res) => {
+                console.log('Recipe created successfully:', res);
                 history.push(`/recipes/${res.id}`);
               })
               .catch((err) => {
-                const { non_field_errors, ingredients, cooking_time } = err;
+                console.error('Error creating recipe:', err);
+                const { non_field_errors, ingredients, cooking_time, tags } = err;
                 if (non_field_errors) {
                   return setSubmitError({
                     submitError: non_field_errors.join(", "),
+                  });
+                }
+                if (tags) {
+                  return setSubmitError({
+                    submitError: `Теги: ${tags.join(", ")}`,
                   });
                 }
                 if (ingredients) {
@@ -176,6 +214,31 @@ const RecipeCreate = ({ onEdit }) => {
             }}
             className={styles.mb36}
           />
+          
+          {/* Добавляем выбор тегов */}
+          <div className={styles.tagsSection}>
+            <label className={styles.tagsLabel}>Теги</label>
+            <div className={styles.tagsContainer}>
+              {tags.map((tag) => (
+                <div
+                  key={tag.id}
+                  className={cn(
+                    styles.tag,
+                    selectedTags.includes(tag.id) && styles.tagSelected
+                  )}
+                  onClick={() => {
+                    if (selectedTags.includes(tag.id)) {
+                      setSelectedTags(selectedTags.filter(id => id !== tag.id));
+                    } else {
+                      setSelectedTags([...selectedTags, tag.id]);
+                    }
+                  }}
+                >
+                  {tag.name}
+                </div>
+              ))}
+            </div>
+          </div>
           <div className={styles.ingredients}>
             <div className={styles.ingredientsInputs}>
               <Input

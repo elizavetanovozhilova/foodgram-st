@@ -92,7 +92,7 @@ class Api {
 
   changeAvatar({ file }) {
     const token = localStorage.getItem("token");
-    return fetch(`/api/users/me/avatar/`, {
+    return fetch(`/api/users/avatar/`, {
       method: "PUT",
       headers: {
         ...this._headers,
@@ -104,7 +104,7 @@ class Api {
 
   deleteAvatar() {
     const token = localStorage.getItem("token");
-    return fetch(`/api/users/me/avatar/`, {
+    return fetch(`/api/users/avatar_delete/`, {
       method: "DELETE",
       headers: {
         ...this._headers,
@@ -168,6 +168,7 @@ class Api {
     cooking_time = 0,
     text = "",
     ingredients = [],
+    tags = [],
   }) {
     const token = localStorage.getItem("token");
     return fetch("/api/recipes/", {
@@ -182,12 +183,13 @@ class Api {
         cooking_time,
         text,
         ingredients,
+        tags,
       }),
     }).then(this.checkResponse);
   }
 
   updateRecipe(
-    { name, recipe_id, image, cooking_time, text, ingredients },
+    { name, recipe_id, image, cooking_time, text, ingredients, tags },
     wasImageUpdated
   ) {
     // image was changed
@@ -205,6 +207,7 @@ class Api {
         cooking_time: Number(cooking_time),
         text,
         ingredients,
+        tags,
       }),
     }).then(this.checkResponse);
   }
@@ -312,6 +315,15 @@ class Api {
     }).then(this.checkResponse);
   }
 
+  // tags
+  getTags() {
+    return fetch(`/api/tags/`, {
+      method: "GET",
+      headers: {
+        ...this._headers,
+      },
+    }).then(this.checkResponse);
+  }
 
   addToOrders({ id }) {
     const token = localStorage.getItem("token");
