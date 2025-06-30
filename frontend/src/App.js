@@ -23,6 +23,7 @@ import {
   UpdateAvatar,
   ResetPassword,
   Technologies,
+  OAuthSuccess,
 } from "./pages";
 
 import { AuthContext, UserContext } from "./contexts";
@@ -186,24 +187,24 @@ function App() {
     }
   };
 
-  useEffect((_) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      return api
-        .getUserData()
-        .then((res) => {
-          setUser(res);
-          setLoggedIn(true);
-          getOrders();
-        })
-        .catch((err) => {
-          setLoggedIn(false);
-          history.push("/recipes");
-        });
-    } else {
-      setLoggedIn(false);
+  useEffect(() => {
+    if (loggedIn === null) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        api.getUserData()
+          .then((res) => {
+            setUser(res);
+            setLoggedIn(true);
+            getOrders();
+          })
+          .catch((err) => {
+            setLoggedIn(false);
+          });
+      } else {
+        setLoggedIn(false);
+      }
     }
-  }, []);
+  }, [loggedIn]);
 
   // useEffect(() => {
   //   document.addEventListener('keydown', function(event) {
@@ -305,7 +306,7 @@ function App() {
               <Technologies />
             </Route>
 
-            <Route exact path="/recipes">
+            <Route exact path="/">
               <Main updateOrders={updateOrders} />
             </Route>
 
@@ -322,9 +323,6 @@ function App() {
                 submitError={registrError}
                 setSubmitError={setRegistrError}
               />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/recipes" />
             </Route>
             <Route path="*">
               <NotFound />

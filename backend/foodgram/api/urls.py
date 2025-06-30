@@ -1,10 +1,11 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from api.views import (CustomUserViewSet, IngredientViewSet,
-                       ListSubscribeViewSet, RecipeViewSet, TagViewSet,
-                       download_shopping_cart, favorite, shopping, subscribe,
-                       get_recipe_short_link)
+from api.views import (
+    CustomUserViewSet, IngredientViewSet, ListSubscribeViewSet, RecipeViewSet, TagViewSet,
+    download_shopping_cart, favorite, shopping, subscribe,
+    get_recipe_short_link, advanced_recipe_filter, user_profile_detail, recipe_statistics
+)
 
 router_v1 = routers.DefaultRouter()
 
@@ -22,6 +23,9 @@ function_urls = [
     path('users/<int:user_id>/subscribe/', subscribe, name='subscribe'),
     path('recipes/<int:recipe_id>/shopping_cart/', shopping, name='shopping'),
     path('recipes/<int:recipe_id>/get-link/', get_recipe_short_link, name='get_recipe_short_link'),
+    path('recipes-filter/', advanced_recipe_filter, name='advanced_recipe_filter'),
+    path('users/<int:user_id>/profile/', user_profile_detail, name='user_profile_detail'),
+    path('statistics/', recipe_statistics, name='recipe_statistics'),
 ]
 
 urlpatterns = [
