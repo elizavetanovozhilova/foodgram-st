@@ -2,7 +2,6 @@ from rest_framework import permissions
 
 
 class IsAuthor(permissions.BasePermission):
-    """Проверяет авторство пользователя."""
 
     message = 'У вас недостаточно прав для редактирования.'
 

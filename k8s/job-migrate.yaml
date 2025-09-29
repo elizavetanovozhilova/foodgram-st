@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate
+  namespace: foodgram
+spec:
+  template:
+    spec:
+      containers:
+        - name: migrate
+          image: elizavetanovozhilova/foodgram-backend:latest
+          command: ["python", "manage.py", "migrate"]
+          envFrom:
+            - secretRef:
+                name: foodgram-secrets
+      restartPolicy: Never
