@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+    pv.kubernetes.io/bound-by-controller: "yes"
+    volume.beta.kubernetes.io/storage-provisioner: k8s.io/minikube-hostpath
+    volume.kubernetes.io/storage-provisioner: k8s.io/minikube-hostpath
+  creationTimestamp: "2025-10-05T19:12:38Z"
+  deletionGracePeriodSeconds: 0
+  deletionTimestamp: "2025-10-05T19:24:51Z"
+  labels:
+    app: postgres
+  name: postgres-storage-postgres-0
+  namespace: foodgram
+  resourceVersion: "60337"
+  uid: db742781-aea2-4871-84ab-985ae37aeaff
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: standard
+  volumeMode: Filesystem
+  volumeName: pvc-db742781-aea2-4871-84ab-985ae37aeaff
+status:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  phase: Bound
