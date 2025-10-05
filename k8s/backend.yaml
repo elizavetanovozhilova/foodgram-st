@@ -15,6 +15,19 @@ spec:
     spec:
       containers:
         - name: backend
-          image: elizavetanovozhilova/foodgram-backend:latest
+          image: elizavetanovozhilova/foodgram-backend:v1.0
           ports:
             - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: foodgram-secrets
+          volumeMounts:
+            - name: static
+              mountPath: /app/backend_static
+            - name: media
+              mountPath: /app/backend_media
+      volumes:
+        - name: static
+          emptyDir: {}
+        - name: media
+          emptyDir: {}

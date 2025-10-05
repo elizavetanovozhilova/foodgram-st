@@ -16,13 +16,9 @@ spec:
       containers:
       - name: postgres
         image: postgres:15
-        env:
-        - name: POSTGRES_DB
-          value: foodgram
-        - name: POSTGRES_USER
-          value: foodgram
-        - name: POSTGRES_PASSWORD
-          value: supersecret
+        envFrom:
+          - secretRef:
+              name: foodgram-secrets
         ports:
         - containerPort: 5432
         volumeMounts:

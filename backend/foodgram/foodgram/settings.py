@@ -10,7 +10,7 @@ AUTH_USER_MODEL = 'users.User'
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = os.getenv('DEBUG') == 'False'
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1')
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else ['*']
 
@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'djoser',
     'django_filters',
     'channels',
+    'corsheaders',
     'api.apps.ApiConfig',
     'recipes.apps.RecipesConfig',
     'users.apps.UsersConfig',
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -169,3 +171,10 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 SOCIAL_AUTH_REDIRECT_URL = os.getenv('SOCIAL_AUTH_REDIRECT_URL', 'http://localhost/oauth-success')
+
+CORS_ALLOWED_ORIGINS = [
+    "http://foodgram.local",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "http://foodgram.local",
+]
