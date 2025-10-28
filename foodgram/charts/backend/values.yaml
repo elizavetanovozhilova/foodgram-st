@@ -1,0 +1,10 @@
+image: ""
+replicas: 1
+service:
+  type: NodePort
+  port: 8000
+  nodePort: 30082
+secretName: foodgram-secrets
+secrets:
+  POSTGRES_PASSWORD: "postgres"
+  DJANGO_SECRET_KEY: "secret"

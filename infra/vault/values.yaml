@@ -1,0 +1,51 @@
+global:
+  enabled: true
+
+server:
+  image:
+    repository: hashicorp/vault
+    tag: "1.16.3"
+  ha:
+    enabled: false
+  dataStorage:
+    enabled: true
+    size: 1Gi
+
+  ui:
+    enabled: true
+
+  extraEnvironmentVars:
+    VAULT_LOG_LEVEL: "info"
+  standalone:
+    enabled: true
+    config: |
+      ui = true
+      listener "tcp" {
+        address     = "0.0.0.0:8200"
+        tls_disable = 1
+      }
+      storage "file" {
+        path = "/vault/data"
+      }
+
+  service:
+    enabled: true
+    type: ClusterIP
+    port: 8200
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    hosts:
+      - host: vault.local
+        path: /
+        pathType: Prefix
+
+    database:
+      host: postgres
+      user: foodgram
+      name: foodgram
+      password: ref+vault://secret/foodgram/database#/POSTGRES_PASSWORD

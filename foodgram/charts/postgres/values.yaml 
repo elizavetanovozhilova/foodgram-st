@@ -1,0 +1,5 @@
+image: postgres:14
+storageSize: 2Gi
+service:
+  port: 5432
+secretName: foodgram-secrets
