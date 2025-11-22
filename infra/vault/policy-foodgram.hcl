@@ -28,3 +28,10 @@ path "sys/mounts" {
 path "sys/mounts/*" {
   capabilities = ["read", "list"]
 }
+path "secret/data/foodgram/rabbitmq" {
+  capabilities = ["read"]
+}
+path "secret/data/foodgram/database" {
+  capabilities = ["read"]
+}
+

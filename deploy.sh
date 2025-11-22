@@ -16,10 +16,12 @@ CHART_PATH="${CHART_PATH:-./foodgram}"
 VALUES_FILE="${VALUES_FILE:-$CHART_PATH/values.yaml}"
 HELM_TIMEOUT="${HELM_TIMEOUT:-10m}"
 
-FALLBACK_ADDR="${FALLBACK_ADDR:-http://127.0.0.1:8200}"
+FALLBACK_ADDR="${FALLBACK_ADDR:-http://127.0.0.1:8201}"
 
 log "Loading variables from .env (if exists)..."
 [[ -f .env ]] && set -a && source .env && set +a
+
+
 
 need curl
 need helm
@@ -97,3 +99,9 @@ Check:
 check_and_deploy_for_addr "$VAULT_ADDR_NORM"
 
 log "Foodgram deployment completed!"
+
+CHART_PATH=infra/rabbitmq \
+VALUES_FILE=infra/rabbitmq/values.yaml \
+RELEASE_NAME=rabbitmq \
+NAMESPACE=foodgram \
+bash deploy.sh

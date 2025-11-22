@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flower
+  namespace: foodgram
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flower
+  template:
+    metadata:
+      labels:
+        app: flower
+    spec:
+      containers:
+        - name: flower
+          image: foodgram-app:latest
+          command: ["flower", "-A", "celeryconfig.app", "--port=5555"]
+          envFrom:
+            - secretRef:
+                name: rabbitmq-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flower
+  namespace: foodgram
+spec:
+  type: NodePort
+  selector:
+    app: flower
+  ports:
+    - port: 5555
+      targetPort: 5555
+      nodePort: 30555   # NodePort для доступа извне

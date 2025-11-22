@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker
+  namespace: foodgram
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-worker
+  template:
+    metadata:
+      labels:
+        app: celery-worker
+    spec:
+      containers:
+        - name: celery-worker
+          image: foodgram-app:latest
+          command: ["celery", "-A", "celeryconfig.app", "worker", "--loglevel=info"]
+          envFrom:
+            - secretRef:
+                name: rabbitmq-secret

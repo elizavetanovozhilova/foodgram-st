@@ -1,17 +1,17 @@
-server:
-  listener:
-    tcp:
-      address: 0.0.0.0:8200
-      tls_disable: true
-
-  ui:
-    enabled: true
-
-  ingress:
-    enabled: true
-    ingressClassName: nginx
-    annotations: {}
-    hosts:
-      - host: vault.local
-        paths:
-          - /
+containers:
+  - name: rabbitmq
+    image: bitnami/rabbitmq:latest
+    ports:
+      - containerPort: 5672   
+      - containerPort: 15672  
+    env:
+      - name: RABBITMQ_DEFAULT_USER
+        valueFrom:
+          secretKeyRef:
+            name: foodgram-secrets
+            key: RABBITMQ_USERNAME
+      - name: RABBITMQ_DEFAULT_PASS
+        valueFrom:
+          secretKeyRef:
+            name: foodgram-secrets
+            key: RABBITMQ_PASSWORD
