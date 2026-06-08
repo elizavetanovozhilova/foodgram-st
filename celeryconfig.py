@@ -2,7 +2,7 @@ from celery import Celery
 import os
 from dotenv import load_dotenv
 
-load_dotenv()  # загружает .env
+load_dotenv()
 
 RABBITMQ_USER = os.getenv("RABBITMQ_USER", "myuser")
 RABBITMQ_PASSWORD = os.getenv("RABBITMQ_PASSWORD", "mypassword")

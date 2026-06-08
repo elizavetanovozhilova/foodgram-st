@@ -1,0 +1,24 @@
+apiVersion: locust.io/v1
+kind: LocustTest
+metadata:
+  name: foodgram-load-test
+  namespace: foodgram
+spec:
+  locustImage: locustio/locust:2.24.1
+
+  master:
+    replicas: 1
+
+  worker:
+    replicas: 2
+
+  configMap:
+    name: locustfile
+
+  host: http://nginx.foodgram.svc.cluster.local
+
+  runTime: 5m
+
+  users: 100
+
+  spawnRate: 10
