@@ -1,0 +1,9 @@
+githubConfigUrl: "https://github.com/elizavetanovozhilova/foodgram-st"
+githubConfigSecret: github-config-secret
+
+runnerScaleSetName: "foodgram-runner-set"
+minRunners: 1
+maxRunners: 3
+
+containerMode:
+  type: "dind"
