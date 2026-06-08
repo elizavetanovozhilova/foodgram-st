@@ -1,0 +1,16 @@
+{
+  "name": "foodgram-ci",
+  "version": "0.0.0-development",
+  "private": true,
+  "description": "CI/CD release tooling for Foodgram",
+  "scripts": {
+    "semantic-release": "semantic-release"
+  },
+  "devDependencies": {
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/github": "^11.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.3",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
+    "semantic-release": "^24.2.3"
+  }
+}
